@@ -52,4 +52,24 @@ router.post("/getQuote", (req, res) => {
   });
 });
 
+router.post("/salesFunnel", (req, res) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const mail = {
+    from: name,
+    to: "lautynievas09@gmail.com",
+    subject: "New Email From Nevve Funnel",
+    html: `<p>Name: ${name}</p>
+             <p>Email: ${email}</p>
+             `,
+  };
+  contactEmail.sendMail(mail, (error) => {
+    if (error) {
+      res.json(error);
+    } else {
+      res.json({ code: 200, status: "Message Sent" });
+    }
+  });
+});
+
 app.listen(port, () => console.log("Server Running on port", port));
