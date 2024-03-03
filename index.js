@@ -60,7 +60,6 @@ router.post("/getQuote", (req, res) => {
   });
 });
 
-const pdfAttachment = fs.readFileSync('./Nevve.pdf');
 
 const confirmationEmail = (email) =>{
   const mail = {
@@ -102,12 +101,6 @@ router.post("/salesFunnel", (req, res) => {
       Lautaro Nievas
       Nevve
     `,
-    attachments: [
-        {
-            filename: 'nevveGuide.pdf',
-            content: pdfAttachment
-        }
-    ]
   }
   contactEmail.sendMail(mailClient, (error) => {
     if (error) {
