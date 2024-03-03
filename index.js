@@ -75,12 +75,13 @@ const confirmationEmail = (email) =>{
       res.json({ code: 200, status: "Email Saved" });
     }
   });
-
+  
 }
 
 router.post("/salesFunnel", (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
+  const pdfAttachment = fs.readFileSync('./Nevve.pdf');
 
   const mailClient = {
     from: 'lautaro.nievas@nevvedesign.com',
@@ -101,6 +102,12 @@ router.post("/salesFunnel", (req, res) => {
       Lautaro Nievas
       Nevve
     `,
+    attachments: [
+        {
+            filename: 'nevveGuide.pdf',
+            content: pdfAttachment
+        }
+    ]
   }
   contactEmail.sendMail(mailClient, (error) => {
     if (error) {
