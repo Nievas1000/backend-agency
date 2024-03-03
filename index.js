@@ -8,7 +8,11 @@ require("dotenv").config();
 const port = process.env.PORT || 5000;
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'https://nevvedesign.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept']
+}));
 app.use(express.json());
 app.use("/", router);
 
