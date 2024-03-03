@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const cors = require("cors");
 const nodemailer = require("nodemailer");
+const fs = require('fs');
 require("dotenv").config();
 
 const port = process.env.PORT || 5000;
@@ -12,10 +13,17 @@ app.use(express.json());
 app.use("/", router);
 
 const contactEmail = nodemailer.createTransport({
-  service: "gmail",
-  port: 587,
+  host: "smtpout.secureserver.net",  
+  secure: true,
+  secureConnection: false,
+  tls: {
+      ciphers:'SSLv3'
+  },
+  requireTLS:true,
+  port: 465,
+  debug: true,
   auth: {
-    user: "lautynievas09@gmail.com",
+    user: "lautaro.nievas@nevvedesign.com",
     pass: process.env.PASSWORD,
   },
 });
@@ -34,7 +42,7 @@ router.post("/getQuote", (req, res) => {
   const message = req.body.message;
   const services = req.body.services.join(", ");
   const mail = {
-    from: name,
+    from: 'lautaro.nievas@nevvedesign.com',
     to: "lautynievas09@gmail.com",
     subject: "Get quote needed",
     html: `<p>Name: ${name}</p>
@@ -52,22 +60,61 @@ router.post("/getQuote", (req, res) => {
   });
 });
 
-router.post("/salesFunnel", (req, res) => {
-  const name = req.body.name;
-  const email = req.body.email;
+const pdfAttachment = fs.readFileSync('./Nevve.pdf');
+
+const confirmationEmail = (email) =>{
   const mail = {
-    from: name,
-    to: "lautynievas09@gmail.com",
+    from: 'lautaro.nievas@nevvedesign.com',
+    to: 'lautynievas09@gmail.com',
     subject: "New Email From Nevve Funnel",
-    html: `<p>Name: ${name}</p>
-             <p>Email: ${email}</p>
-             `,
+    text: `New customer to our email list: ${email}`,
   };
   contactEmail.sendMail(mail, (error) => {
     if (error) {
       res.json(error);
     } else {
-      res.json({ code: 200, status: "Message Sent" });
+      res.json({ code: 200, status: "Email Saved" });
+    }
+  });
+
+}
+
+router.post("/salesFunnel", (req, res) => {
+  const name = req.body.name;
+  const email = req.body.email;
+
+  const mailClient = {
+    from: 'lautaro.nievas@nevvedesign.com',
+    to: email,
+    subject: 'How To Attract And Retain Clients From Nevve',
+    text: `
+      Hello ${name}!
+
+      Thank you for requesting our free guide on how to convert prospects into customers. We are excited to share with you this valuable resource that will help you take your business to the next level!
+    
+      To download your guide, simply click on the document attached to the email.
+    
+      We hope you find the information useful and that it helps you achieve your business goals. If you have any questions or need additional help, please do not hesitate to contact us.
+    
+      Thanks again and have a fantastic day!
+    
+      Best Regards,
+      Lautaro Nievas
+      Nevve
+    `,
+    attachments: [
+        {
+            filename: 'nevveGuide.pdf',
+            content: pdfAttachment
+        }
+    ]
+  }
+  contactEmail.sendMail(mailClient, (error) => {
+    if (error) {
+      res.json(error);
+    } else {
+      confirmationEmail(email)
+      res.send({ code: 200, status: "Message Sent" });
     }
   });
 });
