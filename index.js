@@ -81,8 +81,6 @@ const confirmationEmail = (email) =>{
 router.post("/salesFunnel", (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
-  const pdfAttachmentSpanish = fs.readFileSync('./public/assets/NevveSpanish.pdf', {encoding: 'utf8'});
-  const pdfAttachmentEnglish = fs.readFileSync('./public/assets/NevveEnglish.pdf', {encoding: 'utf8'});
 
 
   const mailClient = {
@@ -107,11 +105,11 @@ router.post("/salesFunnel", (req, res) => {
     attachments: [
         {
           filename: 'nevveGuideSpanish.pdf',
-          content: pdfAttachmentSpanish
+          content: './public/assets/NevveSpanish.pdf'
         },
         {
           filename: 'nevveGuideEnglish.pdf',
-          content: pdfAttachmentEnglish
+          content: './public/assets/NevveEnglish.pdf'
       }
     ]
   }
