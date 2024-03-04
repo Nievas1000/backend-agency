@@ -109,12 +109,11 @@ router.post("/salesFunnel", (req, res) => {
         }
     ]
   }
+  confirmationEmail(email)
   contactEmail.sendMail(mailClient, (error) => {
     if (error) {
       res.send({error});
-      confirmationEmail(email)
     } else {
-      confirmationEmail(email)
       res.send({ code: 200, status: "Message Sent" });
     }
   });
