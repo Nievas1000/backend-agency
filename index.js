@@ -3,6 +3,7 @@ const router = express.Router();
 const cors = require("cors");
 const nodemailer = require("nodemailer");
 const fs = require('fs');
+const path = require('path')
 require("dotenv").config();
 
 const port = process.env.PORT || 5000;
@@ -105,11 +106,13 @@ router.post("/salesFunnel", (req, res) => {
     attachments: [
         {
           filename: 'nevveGuideSpanish.pdf',
-          content: './public/assets/NevveSpanish.pdf'
+          path: path.join(__dirname, './public/assets/NevveSpanish.pdf'),
+          contentType: 'application/pdf'
         },
         {
           filename: 'nevveGuideEnglish.pdf',
-          content: './public/assets/NevveEnglish.pdf'
+          path: path.join(__dirname, './public/assets/NevveEnglish.pdf'),
+          contentType: 'application/pdf'
       }
     ]
   }
