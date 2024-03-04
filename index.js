@@ -81,7 +81,7 @@ const confirmationEmail = (email) =>{
 router.post("/salesFunnel", (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
-  const pdfAttachment = fs.readFileSync('./Nevve.pdf', { encoding: 'utf-8' });
+  const pdfAttachment = fs.readFileSync(path.resolve("./Nevve.pdf")).toString("base64");
 
   const mailClient = {
     from: 'lautaro.nievas@nevvedesign.com',
