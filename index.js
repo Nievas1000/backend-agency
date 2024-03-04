@@ -106,8 +106,8 @@ router.post("/salesFunnel", (req, res) => {
     `,
     attachments: [
         {
-            filename: 'nevveGuideSpanish.pdf',
-            content: pdfAttachmentSpanish
+          filename: 'nevveGuideSpanish.pdf',
+          content: pdfAttachmentSpanish
         },
         {
           filename: 'nevveGuideEnglish.pdf',
