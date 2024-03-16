@@ -61,12 +61,15 @@ router.post("/getQuote", (req, res) => {
   });
 });
 
-const confirmationEmail = (email) => {
+const confirmationEmail = (email, linkedin, aditional) => {
   const mail = {
     from: "lautaro.nievas@nevvedesign.com",
     to: "lautynievas09@gmail.com",
     subject: "New Email From Nevve Funnel",
-    text: `New customer to our email list: ${email}`,
+    text: `New customer to our email list: ${email}
+          Linkedin account: ${linkedin}
+          Additional Information: ${aditional}
+    `,
   };
   contactEmail.sendMail(mail, (error) => {
     if (error) {
@@ -100,7 +103,7 @@ router.post("/salesFunnel", (req, res) => {
       Nevve
     `,
   };
-  confirmationEmail(name, email, linkedin, aditional);
+  confirmationEmail(email, linkedin, aditional);
   contactEmail.sendMail(mailClient, (error) => {
     if (error) {
       res.send({ error });
