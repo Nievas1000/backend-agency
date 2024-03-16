@@ -78,8 +78,7 @@ const confirmationEmail = (email) => {
 };
 
 router.post("/salesFunnel", (req, res) => {
-  const name = req.body.name;
-  const email = req.body.email;
+  const { name, email, linkedin, aditional } = req.body;
 
   const mailClient = {
     from: "lautaro.nievas@nevvedesign.com",
@@ -101,7 +100,7 @@ router.post("/salesFunnel", (req, res) => {
       Nevve
     `,
   };
-  confirmationEmail(email);
+  confirmationEmail(name, email, linkedin, aditional);
   contactEmail.sendMail(mailClient, (error) => {
     if (error) {
       res.send({ error });
