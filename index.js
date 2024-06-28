@@ -6,8 +6,19 @@ require("dotenv").config();
 
 const port = process.env.PORT || 5000;
 
+const corsOptions = {
+  origin: [
+    "http://localhost:5173",
+    "https://nevvedesign.com",
+    "https://nevvedesign.com/get-free-website",
+  ],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  optionsSuccessStatus: 200,
+  credentials: true,
+};
+
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/", router);
 
