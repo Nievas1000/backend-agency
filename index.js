@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const cors = require("cors");
 const nodemailer = require("nodemailer");
-const fs = require("fs");
-const path = require("path");
 require("dotenv").config();
 
 const port = process.env.PORT || 5000;
@@ -14,7 +12,7 @@ app.use(express.json());
 app.use("/", router);
 
 const contactEmail = nodemailer.createTransport({
-  host: "smtpout.secureserver.net",
+  host: "smtp.hostinger.com",
   secure: true,
   secureConnection: false,
   tls: {
